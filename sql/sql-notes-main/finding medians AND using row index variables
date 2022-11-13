@@ -1,0 +1,37 @@
+SET @rowindex = -1; -- creates index
+
+SELECT ROUND(AVG(LAT_N), 4)
+
+FROM (SELECT @rowindex := @rowindex + 1 AS rowindex, LAT_N -- rowindex increases by 1 with each LAT_N it returns
+     FROM STATION
+     ORDER BY LAT_N) AS l -- the index, and LAT_N in increasing order
+WHERE l.rowindex IN (FLOOR(@rowindex/2), CEIL(@rowindex/2))
+                -- if there are even # of rows, @rowindex will be odd and will return
+                        -- two values when divided by 2. we find the avg in outer query
+                -- if there are odd # of rows, @rowindex will be even and will return
+                        -- one value when divided by 2. the avg will be itself! explanation below                        
+/* 
+
+0
+1
+2
+3
+4
+5
+
+there are six rows; rowindex = 5
+the median will be values 2 & 3; floor(2.5) and ceil(2.5)
+
+0
+1
+2
+3
+4
+5
+6
+
+there are seven rows; rowindex = 6
+the median will be 3; floor(3) and ceil(3)
+
+WOW!!! */
+
