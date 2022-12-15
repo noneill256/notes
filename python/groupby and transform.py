@@ -45,3 +45,4 @@ employee['avg_salary'] = employee.groupby(['department'])['salary'].transform('m
 
 result = employee[['department', 'first_name', 'salary', 'avg_salary']]
 result
+
