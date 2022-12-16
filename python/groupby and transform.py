@@ -46,3 +46,15 @@ employee['avg_salary'] = employee.groupby(['department'])['salary'].transform('m
 result = employee[['department', 'first_name', 'salary', 'avg_salary']]
 result
 
+
+"""
+Find the average number of bathrooms and bedrooms for each city’s property types. 
+Output the result along with the city name and the property type.
+"""
+result = airbnb_search_details.groupby(['city',  'property_type'])['bedrooms', 'bathrooms'].mean()
+
+result.reset_index().rename(index=str, 
+    columns={'bedrooms': 'n_bedrooms_avg', # renames 'bedrooms' to 'n_bedrooms_avg'
+        'bathrooms': 'n_bathrooms_avg'
+    })
+
